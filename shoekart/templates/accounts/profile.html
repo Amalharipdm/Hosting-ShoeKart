@@ -1,0 +1,118 @@
+{% extends 'cart_items/cart_base.html' %}
+
+
+{% load static %}
+
+{% block body %}
+<div class="container mt-5 ">
+    <div class="row gutters">
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+            <div class="card h-100">
+                <div class="card-body">
+
+                    <div class="about" style="padding: 6rem;">
+                        <h1>Profile</h1>
+                        <p></p>
+                    </div>
+                    <div class="row p-4">
+                        <a href="{% url 'profile_view_demo' %}" class="btn btn-secondary" role="button">Details</a>
+                    </div>
+                    <div class="row p-4">
+                        <a href="{% url 'profile_order_detail'  %}" class="btn btn-secondary" role="button">Order
+                            Details</a>
+                    </div>
+                    <div class="row p-4">
+                        <a href="{% url 'display_addresses_profile'  %}" class="btn btn-primary" role="button">Saved
+                            Addresses</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% comment %} address add fields {% endcomment %}
+        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+            <div class="col-md-9" style="margin-left: 25rem;">
+                <form action="{% url 'profile_view_demo' %}" method="post">
+                    {% csrf_token %}
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3"
+                            style="margin-right: 23rem;margin-bottom: 2rem;">
+                            <h4 class="text-right" style="margin-right: 10rem;">Profile Settings</h4>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6"><label class="labels">First Name</label><input type="text"
+                                    class="form-control" placeholder="first name" name="first_name"
+                                    value="{{ request.user.first_name }}"></div>
+                            <div class="col-md-6"><label class="labels">Last Name</label><input type="text"
+                                    class="form-control" value="{{ request.user.last_name }}" placeholder="last name"
+                                    name="last_name"></div>
+                        </div>
+                        <br>
+                        <div class="row mt-2">
+                            <div class="col-md-6"><label class="labels">Mobile Number</label><input type="text"
+                                    class="form-control" placeholder="enter phone number"
+                                    value="{{ request.user.phone_number }}" name="phone_number">
+                            </div>
+                            <div class="col-md-6"><label class="labels">Email Address</label><input type="email"
+                                    class="form-control" value="{{ request.user.email }}"
+                                    placeholder="enter email address" name="email"></div>
+                        </div>
+                        <br>
+                        <div class="row mt-3">
+                            <div class="col-md-12"><label class="labels">Address Line 1</label><input type="text"
+                                    class="form-control" placeholder="enter address line 1"
+                                    value="{{ request.user.address_line_1 }}" name="address_line_1"></div>
+                            <br>
+                            <div class="col-md-12" style="margin-top: 2rem;"><label class="labels">Address Line
+                                    2</label><input type="text" class="form-control" placeholder="enter address line 2"
+                                    value="{{ request.user.address_line_2 }}" name="address_line_2"></div>
+                        </div>
+                        <br>
+                        <div class="row mt-3">
+                            <div class="col-md-6"><label class="labels">Postcode</label><input type="text"
+                                    class="form-control" value="{{ request.user.postcode }}" placeholder="postcode"
+                                    name="postcode"></div>
+                            <div class="col-md-6"><label class="labels">Area</label><input type="text"
+                                    class="form-control" placeholder="area" value="{{ request.user.area }}" name="area">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row mt-3">
+                            <div class="col-md-6"><label class="labels">State</label><input type="text"
+                                    class="form-control" value="{{ request.user.state }}" placeholder="state"
+                                    name="state"></div>
+                            <div class="col-md-6"><label class="labels">Country</label><input type="text"
+                                    class="form-control" placeholder="country" value="{{ request.user.country }}"
+                                    name="country"></div>
+                        </div>
+                        <div>
+                            {% if messages %}
+                            <div class="messages">
+                                {% for message in messages %}
+                                <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                                    {{ message }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <br>
+                        <div class="mt-5 text-center"><button class="btn btn-primary profile-button"
+                                type="submit">SaveProfile</button></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    function loadAvatar(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var avatarImg = document.getElementById('avatar-img');
+            avatarImg.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+{% endblock %}
